@@ -1,0 +1,52 @@
+﻿@model DoAnHMS.Models.LoaiPhong
+
+@{
+    ViewBag.Title = "Loại phòng - Xóa";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h3>Bạn có chăc chắn muốn xóa thông tin này?</h3>
+<div>
+    <img src="/Images/@Html.DisplayFor(model => model.hinhAnh)" style="width:500px; height:auto" />
+    <table style="font-size:20px;margin-left:50px;">
+        <tr>
+            <td>
+
+                <table cellpadding="2" cellspacing="10">
+
+                    <tr>
+                        <td>Mã loại phòng</td>
+                        <td>@Html.DisplayFor(model => model.maLP)</td>
+                    </tr>
+                    <tr>
+                        <td>Tên Loại Phòng</td>
+                        <td>@Html.DisplayFor(model => model.tenLP)</td>
+                    </tr>
+                    <tr>
+                        <td>Đơn giá</td>
+                        <td>@Html.DisplayFor(model => model.donGia)</td>
+                    </tr>
+
+                    <tr>
+                        <td>Sức chứa</td>
+                        <td>@Html.DisplayFor(model => model.sucChua)</td>
+                    </tr>
+                    <tr>
+                        <td>Mô tả</td>
+                        <td>@Html.DisplayFor(model => model.moTa)</td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Xóa" class="btn btn-primary" /> |
+            @Html.ActionLink("Trở về", "Index")
+        </div>
+    }
+</div>

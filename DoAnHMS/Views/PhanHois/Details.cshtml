@@ -1,0 +1,67 @@
+﻿@model DoAnHMS.Models.PhanHoi
+
+@{
+    ViewBag.Title = "Phản hồi - Chi tiết";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h3>Chi tiết phản hồi</h3>
+
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            Họ tên
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.hoTen)
+        </dd>
+
+        <dt>
+            Số điện thoại
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.sdt)
+        </dd>
+
+        <dt>
+            Email
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.email)
+        </dd>
+
+        <dt>
+            Nội dung
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.noiDung)
+        </dd>
+
+        <dt>
+            Ngày gửi
+        </dt>
+
+        <dd>
+            @{ string ngayGui = Model.ngayGui.ToString("dd/MM/yyy hh:mm");} @ngayGui
+
+        </dd>
+
+        <dt>
+            Tình trạng
+        </dt>
+
+        <dd>
+            @{ string tt = ""; if (Model.tinhTrang == true) { tt = "Đã xử lý"; } else { tt = "Chưa xử lý"; }
+            } @tt
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Trở về", "Index")
+</p>

@@ -1,0 +1,36 @@
+﻿@model DoAnHMS.Models.NhomNhanVien
+
+@{
+    ViewBag.Title = "Nhóm nhân viên - Xóa";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h3>Bạn chắc chắc muốn xóa thông tin này?</h3>
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.IDNhom)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IDNhom)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.TenNhom)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TenNhom)
+        </dd>
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Xóa" class="btn btn-primary" /> |
+            @Html.ActionLink("Trở về", "Index")
+        </div>
+    }
+</div>

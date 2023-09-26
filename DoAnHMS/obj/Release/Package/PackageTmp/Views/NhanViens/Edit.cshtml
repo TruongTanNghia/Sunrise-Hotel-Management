@@ -1,0 +1,141 @@
+﻿@model DoAnHMS.Models.NhanVien
+
+@{
+    ViewBag.Title = "Nhân viên - Cập nhật";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            var fileupload = $("#Avatar");
+            var image = $("#FileUpload");
+            image.click(function () {
+                fileupload.click();
+            });
+            fileupload.change(function () {
+                var fileName = $(this).val().split('\\')[$(this).val().split('\\').length - 1];
+                document.getElementById("hinhAnh").value = fileName;
+            });
+        });
+    </script>
+    <style>
+        input#ngaySinh {
+            background-color: white;
+        }
+    </style>
+
+}
+
+<h3>CẬP NHẬT THÔNG TIN NHÂN VIÊN</h3>
+
+@using (Html.BeginForm("Edit", "Nhanviens", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.maNV)
+        <div class="form-group1">
+            @Html.LabelFor(model => model.maNV, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.maNV, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                @Html.ValidationMessageFor(model => model.maNV, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group1">
+            @Html.LabelFor(model => model.tenNV, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.tenNV, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.tenNV, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group1">
+            @Html.LabelFor(model => model.gioiTinh, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <div class="checkbox">
+
+                    Nam @Html.RadioButtonFor(model => model.gioiTinh, "True", new { @checked = "checked" }) &nbsp;
+                    Nữ @Html.RadioButtonFor(model => model.gioiTinh, "False")
+                    @Html.ValidationMessageFor(model => model.gioiTinh, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group1">
+            @Html.LabelFor(model => model.ngaySinh, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.ngaySinh, new { @class = "form-control datepicker", @Value = ViewBag.ngaySinh, @readonly = "readonly" })
+                @Html.ValidationMessageFor(model => model.ngaySinh, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group1">
+            @Html.LabelFor(model => model.diaChi, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.diaChi, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.diaChi, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group1">
+            @Html.LabelFor(model => model.email, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.email, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.email, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group1">
+            @Html.LabelFor(model => model.sdt, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.sdt, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.sdt, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group1">
+            @Html.LabelFor(model => model.hinhAnh, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.hinhAnh, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.hinhAnh, "", new { @class = "text-danger" })
+                <input type="file" name="Avatar" id="Avatar" />
+            </div>
+        </div>
+
+        <div class="form-group1">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Lưu" class="btn btn-primary" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Quay lại", "Index")
+</div>
+
+@section Scripts {
+
+    @Scripts.Render("~/bundles/jqueryui")
+    @Styles.Render("~/Content/cssjqryUi")
+
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="/resources/demos/style.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('.datepicker').datepicker({
+                dateFormat: "mm/dd/yy",
+                changeMonth: true,
+                changeYear: true,
+                yearRange: "-60:+0"
+            });
+
+        });
+    </script>
+
+}

@@ -1,0 +1,38 @@
+﻿@model DoAnHMS.Models.DanhSachQuyen
+
+@{
+    ViewBag.Title = "Phân quyền - Xóa";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h3>Bạn có chắc chắn muốn xóa thông tin này?</h3>
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            Nhóm nhân viên
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NhomNhanVien.TenNhom)
+        </dd>
+
+        <dt>
+            Quyền
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Quyen.TenQuyen)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Xóa" class="btn btn-primary" /> |
+            @Html.ActionLink("Trở về", "Index")
+        </div>
+    }
+</div>

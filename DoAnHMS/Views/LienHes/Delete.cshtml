@@ -1,0 +1,65 @@
+﻿@model DoAnHMS.Models.LienHe
+
+@{
+    ViewBag.title = "Liên hệ - Xóa";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+
+    <h3>Bạn có chắc chắn muốn xóa thông tin này?</h3>
+    <div>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                Họ tên
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.hoTen)
+            </dd>
+
+            <dt>
+                Số điện thoại
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.sdt)
+            </dd>
+
+            <dt>
+                Email
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.email)
+            </dd>
+
+            <dt>
+                Ngày gửi
+            </dt>
+
+            <dd>
+                @{ string ngayGui = Model.ngayGui.ToString("dd/MM/yyyy hh:mm");} @ngayGui
+            </dd>
+
+            <dt>
+                Tình trạng phòng
+            </dt>
+
+            <dd>
+                @{ string tt = ""; if (Model.tinhTrang == true) { tt = "Đã xử lý"; } else { tt = "Chưa xử lý"; }
+                } @tt
+            </dd>
+
+        </dl>
+    
+        @using (Html.BeginForm()) {
+            @Html.AntiForgeryToken()
+    
+            <div class="form-actions no-color">
+                <input type="submit" value="Xóa" class="btn btn-primary" /> |
+                @Html.ActionLink("Trở về", "Index")
+            </div>
+        }
+    </div>
+

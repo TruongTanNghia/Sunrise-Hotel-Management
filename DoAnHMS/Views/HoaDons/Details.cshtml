@@ -1,0 +1,139 @@
+﻿@model DoAnHMS.Models.HoaDon
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    List<string> maPs = new List<string>();
+}
+
+<style>
+    .customTable {
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+        .customTable td, #customTable th {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+
+        .customTable tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        .customTable th {
+            padding-top: 12px;
+            padding-bottom: 12px;
+            text-align: left;
+            background-color: cyan;
+        }
+</style>
+
+<h3>CHI TIẾT HÓA ĐƠN</h3>
+
+<div>
+    <h4>Thông tin hóa đơn</h4>
+    <hr />
+    <div class="row">
+        <div class="col-md-6"><b>@Html.DisplayNameFor(model => model.maHD):</b> @Html.DisplayFor(model => model.maHD)</div>
+        <div class="col-md-6"><b>@Html.DisplayNameFor(model => model.ngayTT):</b> @{string ngayTT = Model.ngayTT.ToString("dd/MM/yyy hh:mm");} @ngayTT</div>
+    </div>
+    <div class="row">
+        <div class="col-md-6"><b>@Html.DisplayNameFor(model => model.maPTP):</b> @Html.DisplayFor(model => model.maPTP)</div>
+        <div class="col-md-6"><b>@Html.DisplayNameFor(model => model.PhieuThuePhong.maPDP):</b> @{ string maPDP = Model.PhieuThuePhong.maPDP == null ? "Không có" : Model.PhieuThuePhong.maPDP;} @maPDP</div>
+    </div>
+    <div class="row">
+        <div class="col-md-6"><b>@Html.DisplayNameFor(model => model.PhieuThuePhong.ngayThue):</b> @{string ngayThue = Model.PhieuThuePhong.ngayThue.ToString("dd/MM/yyy");} @ngayThue</div>
+        <div class="col-md-6"><b>@Html.DisplayNameFor(model => model.PhieuThuePhong.ngayTra):</b> @{string ngayTra = Model.PhieuThuePhong.ngayTra.ToString("dd/MM/yyy");} @ngayTra</div>
+    </div>
+    <div class="row">
+        <div class="col-md-6"><b>@Html.DisplayNameFor(model => model.PhieuThuePhong.maKH):</b> @Html.DisplayFor(model => model.PhieuThuePhong.KhachHang.tenKH)</div>
+        <div class="col-md-6"><b>@Html.DisplayNameFor(model => model.maNV):</b> @Html.DisplayFor(model => model.NhanVien.tenNV)</div>
+    </div>
+</div>
+<br />
+<h4>Danh sách phòng đã thuê</h4>
+<hr />
+<div>
+    <table class="table table-bordered table-hover customTable">
+        <tr>
+            <th>Mã phòng</th>
+            <th>Loại phòng</th>
+            <th>Đơn giá</th>
+            <th>Tiền cọc</th>
+        </tr>
+        @{decimal tienCoc = 0; decimal tienPhong = 0;}
+        @foreach (var item in Model.PhieuThuePhong.CTPhieuThuePhongs)
+        {
+            if (!maPs.Contains(item.maP))
+            {
+                maPs.Add(item.maP);
+                <tr>
+                    <td>@item.maP</td>
+                    <td>@item.Phong.LoaiPhong.tenLP</td>
+                    <td>@item.Phong.LoaiPhong.donGia.ToString("#,##0")</td>
+                    @{ tienPhong += item.Phong.LoaiPhong.donGia;}
+                    @if (Model.PhieuThuePhong.maPDP == null)
+                    {
+                        <td>0</td>
+                    }
+                    else
+                    {
+                        var cTPhieuDatPhong = Model.PhieuThuePhong.PhieuDatPhong.CTPhieuDatPhongs.Where(x => x.maP == item.maP).SingleOrDefault();
+                        tienCoc += cTPhieuDatPhong.tienCoc;
+                        <td>@cTPhieuDatPhong.tienCoc.ToString("#,##0")</td>
+                    }
+
+                </tr>
+                            }
+
+                        }
+    </table>
+    @{
+        TimeSpan difference = Model.PhieuThuePhong.ngayTra - Model.PhieuThuePhong.ngayThue;
+        decimal days = (decimal)(difference.TotalDays + 1);
+        tienPhong *= days;
+    }
+</div>
+<br />
+<h4>Danh sách dịch vụ đã sử dụng</h4>
+<hr />
+<div>
+    <table class="table table-bordered table-hover customTable">
+        <tr>
+            <th>Mã phòng</th>
+            <th>Dịch vụ</th>
+            <th>Đơn giá</th>
+            <th>Số lượng</th>
+            <th>Ngày sử dụng</th>
+            <th>Thành tiền</th>
+        </tr>
+        @{decimal tienDV = 0; } 
+        @foreach (var item in Model.PhieuThuePhong.CTPhieuThuePhongs)
+        {
+    <tr>
+        <td>@item.maP</td>
+        <td>@item.DichVu.tenDV</td>
+        <td>@item.DichVu.gia.ToString("#,##0")</td>
+        <td>@item.soLuong</td>
+        <td>@{string ngaySD = @item.ngaySD.ToString("dd/MM/yyy hh:mm");} @ngaySD</td>
+        <td>@{ decimal tt = @item.DichVu.gia * @item.soLuong; tienDV += tt;} @tt.ToString("#,##0")</td>
+    </tr>
+            }
+    </table>
+</div>
+<hr />
+<div style="text-align:right;">
+    <p>Tổng tiền phòng: @tienPhong.ToString("#,##0")</p>
+    <p>Tổng tiền dịch vụ: @tienDV.ToString("#,##0")</p>
+    <p>Tổng tiền cọc: @tienCoc.ToString("#,##0")</p>
+    <p>--------------------</p>
+    <p>Tiền cần thanh toán: @{decimal tienCanTT = tienPhong + tienDV - tienCoc;} @tienCanTT.ToString("#,##0")</p>
+</div>
+<div>
+    <p>
+        @Html.ActionLink("Chỉnh sửa", "Edit", new { id = Model.maHD }) |
+        @Html.ActionLink("Quay về", "Index")
+    </p>
+</div>
+

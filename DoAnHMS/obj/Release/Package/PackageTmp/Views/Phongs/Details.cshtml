@@ -1,0 +1,43 @@
+﻿@model DoAnHMS.Models.Phong
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h3>Thông tin phòng</h3>
+<img src="/Images/@Html.DisplayFor(model => model.LoaiPhong.hinhAnh)" style="width:500px; height:auto" />
+<table style="font-size:20px;margin-left:50px;">
+    <tr>
+        <td>
+            <table cellpadding="2" cellspacing="10">
+                <tr>
+                    <td>Mã phòng</td>
+                    <td>@Html.DisplayFor(model => model.maP)</td>
+                </tr>
+                <tr>
+                    <td>Loại phòng</td>
+                    <td>@Html.DisplayFor(model => model.LoaiPhong.tenLP)</td>
+                </tr>
+                <tr>
+                    <td>Đơn giá</td>
+                    <td>@Html.DisplayFor(model => model.LoaiPhong.donGia)</td>
+                </tr>
+
+                <tr>
+                    <td>Sức chứa</td>
+                    <td>@Html.DisplayFor(model => model.LoaiPhong.sucChua)</td>
+                </tr>
+                <tr>
+                    <td>Mô tả</td>
+                    <td>@Html.DisplayFor(model => model.LoaiPhong.moTa)</td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
+
+<p>
+    @Html.ActionLink("Sửa", "Edit", new { id = Model.maP }) |
+    @Html.ActionLink("Trở về", "Index")
+</p>

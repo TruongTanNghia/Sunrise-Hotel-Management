@@ -1,0 +1,64 @@
+﻿@model DoAnHMS.Models.NhanVien
+
+@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    string gtinh = "";
+}
+
+<h4 style="color:red;"> Bạn có chắc chắn xóa thông tin này?</h4>
+<table border="1" cellpadding="0" cellspacing="0" style="font-size:14px;margin-left:50px;">
+    <tr>
+        <td>
+            <table cellpadding="2" cellspacing="10">
+                <caption><b>THÔNG TIN CHI TIẾT</b></caption>
+                <tr>
+                    <td rowspan="8"><img src="/Images/@Html.DisplayFor(model => model.hinhAnh)" width="100" height="100" /></td>
+                    <td>Mã nhân viên:</td>
+                    <td>@Html.DisplayFor(model => model.maNV)</td>
+                </tr>
+                <tr>
+                    <td>Tên nhân viên:</td>
+                    <td>@Html.DisplayFor(model => model.tenNV)</td>
+                </tr>
+                <tr>
+                    <td>Giới tính:</td>
+                    <td>
+                        @{if (Model.gioiTinh == true)
+                            { gtinh = "Nam"; }
+                            else
+                            { gtinh = "Nữ"; }
+                        }
+                        @gtinh
+                    </td>
+                </tr>
+                <tr>
+                    <td>Ngày sinh:</td>
+                    <td>@Html.DisplayFor(model => model.ngaySinh)</td>
+                </tr>
+                <tr>
+                    <td>Địa chỉ:</td>
+                    <td>@Html.DisplayFor(model => model.diaChi)</td>
+                </tr>
+                <tr>
+                    <td>Email:</td>
+                    <td>@Html.DisplayFor(model => model.email)</td>
+                </tr>
+                <tr>
+                    <td>Số điện thoại:</td>
+                    <td>@Html.DisplayFor(model => model.sdt)</td>
+                </tr>
+
+            </table>
+        </td>
+    </tr>
+</table>
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-actions no-color" style="margin-left:50px;">
+        <input type="submit" value="Xóa" class="btn btn-primary" /> |
+        @Html.ActionLink("Quay lại", "Index")
+    </div>
+}

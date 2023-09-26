@@ -1,0 +1,69 @@
+﻿@model DoAnHMS.Models.CTPhieuThuePhong
+
+@{
+    ViewBag.Title = "Sử dụng dịch vụ";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h3>Sử dụng dịch vụ</h3>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+<div class="form-horizontal">
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <div class="form-group">
+        @Html.LabelFor(model => model.maPTP, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-6">
+            @Html.EditorFor(model => model.maPTP, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", @Value = ViewBag.maPTP} })
+            @Html.ValidationMessageFor(model => model.maPTP, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.maP, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-6">
+            @Html.DropDownList("maP", null, htmlAttributes: new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.maP, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.maDV, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-6">
+            @Html.DropDownList("maDV", null, htmlAttributes: new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.maDV, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.ngaySD, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-6">
+            @Html.EditorFor(model => model.ngaySD, new { htmlAttributes = new { @class = "form-control", @type = "datetime-local" } })
+            @Html.ValidationMessageFor(model => model.ngaySD, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.soLuong, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-6">
+            @Html.EditorFor(model => model.soLuong, new { htmlAttributes = new { @class = "form-control", @Value = 1, @type = "number" } })
+            @Html.ValidationMessageFor(model => model.soLuong, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Thêm" class="btn btn-primary" />
+        </div>
+    </div>
+</div>
+}
+
+<p>
+    @Html.ActionLink("Trở về", "Details", new { id = ViewBag.maPTP })
+</p>
+
+

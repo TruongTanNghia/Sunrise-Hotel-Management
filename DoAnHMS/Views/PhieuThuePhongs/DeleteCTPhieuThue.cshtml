@@ -1,0 +1,36 @@
+﻿@model DoAnHMS.Models.CTPhieuThuePhong
+@{
+    ViewBag.Title = "Phiếu thuê phòng - Xóa chi tiết";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h3>Bạn có chắc chắn muốn chi tiết phiếu thuê phòng này?</h3>
+<hr />
+<div class="row">
+    <div class="col-md-6">
+        <b>Mã phiếu thuê phòng:</b> @Html.DisplayFor(model => model.maPTP)
+    </div>
+    <div class="col-md-6">
+        <b>Mã phòng:</b> @Html.DisplayFor(model => model.maP)
+    </div>
+    <div class="col-md-6">
+        <b>Dịch vụ:</b> @Html.DisplayFor(model => model.DichVu.tenDV)
+    </div>
+    <div class="col-md-6">
+        <b>Ngày sử dụng:</b> @{ string ngaySD = Model.ngaySD.ToString("dd/MM/yyyy hh:mm");} @ngaySD
+    </div>
+    <div class="col-md-6">
+        <b>Số lượng:</b> @Html.DisplayFor(model => model.soLuong)
+    </div>
+</div>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-actions no-color">
+        <input type="submit" value="Xóa" class="btn btn-primary" /> |
+        @Html.ActionLink("Trở về", "Details", new { id = ViewBag.maPTP})
+    </div>
+}
+

@@ -1,0 +1,63 @@
+﻿@model DoAnHMS.Models.NhanVien
+
+@{
+    ViewBag.Title = "Thông tin nhân viên";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    string gtinh = "";
+}
+
+<table cellpadding="0" cellspacing="0" style="font-size:20px;margin-left:50px;">
+    <tr>
+        <td>
+            <table cellpadding="2" cellspacing="10">
+                <caption><b>THÔNG TIN CHI TIẾT</b></caption>
+                <tr>
+                    <td rowspan="8"><img src="/Images/@Html.DisplayFor(model => model.hinhAnh)" width="300" height="300" /></td>
+                    <td>Mã nhân viên:</td>
+                    <td>@Html.DisplayFor(model => model.maNV)</td>
+                </tr>
+                <tr>
+                    <td>Tên nhân viên:</td>
+                    <td>@Html.DisplayFor(model => model.tenNV)</td>
+                </tr>
+                <tr>
+                    <td>Giới tính:</td>
+                    <td>
+                        @{if (Model.gioiTinh == true)
+                            { gtinh = "Nam"; }
+                            else
+                            { gtinh = "Nữ"; }
+                        }
+                        @gtinh
+                    </td>
+                </tr>
+                <tr>
+                    <td>Ngày sinh:</td>
+                    <td>@{string ngaySinh = Model.ngaySinh.ToString("dd/MM/yyyy"); } @ngaySinh</td>
+                </tr>
+                <tr>
+                    <td>Địa chỉ:</td>
+                    <td>@Html.DisplayFor(model => model.diaChi)</td>
+                </tr>
+                <tr>
+                    <td>Email:</td>
+                    <td>@Html.DisplayFor(model => model.email)</td>
+                </tr>
+                <tr>
+                    <td>Số điện thoại:</td>
+                    <td>@Html.DisplayFor(model => model.sdt)</td>
+                </tr>
+                <tr>
+                    <td>Nhóm nhân viên:</td>
+                    <td>@Html.DisplayFor(model => model.QuanTris.Where(x => x.maNV == model.maNV).FirstOrDefault().NhomNhanVien.TenNhom)</td>
+                </tr>
+
+            </table>
+        </td>
+    </tr>
+</table>
+<p style="margin-left:50px;">
+    @Html.ActionLink("Cập nhật", "Edit") |
+    @Html.ActionLink("Quay lại", "Index", "Home")
+</p>
+

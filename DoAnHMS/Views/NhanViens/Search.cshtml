@@ -1,0 +1,171 @@
+﻿@model List<DoAnHMS.Models.NhanVien>
+@{
+    ViewBag.Title = "Nhân viên - Tìm kiếm";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    var grid = new WebGrid(Model, canPage: true, defaultSort: "maNV", rowsPerPage: 5);
+}
+<html>
+<head>
+    <style type="text/css">
+        .grid-footer {
+            color: #000;
+            font: 17px Calibri;
+            text-align: center;
+            font-weight: bold;
+        }
+
+            .grid-footer a {
+                background-color: #ffffff;
+                color: blue;
+                box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+                padding: 1px 10px 2px 10px;
+            }
+
+                .grid-footer a:active, a:hover {
+                    background-color: #ffffff;
+                    color: #FFAD33;
+                    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+                }
+
+        .alternatingRowStyle {
+            background-color: aliceblue;
+        }
+
+        table .table1 {
+            text-align: left;
+            margin-left: 0px;
+            margin-right: 0px;
+            width: 800px;
+        }
+
+        .tr, .td {
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+    <h3>TÌM KIẾM NHÂN VIÊN</h3>
+    <hr />
+    <div>
+        @using (Html.BeginForm("Search", "NhanViens", FormMethod.Get))
+        {
+            @Html.AntiForgeryToken()
+
+
+        <table class="table1" align="center">
+            <tr>
+                <td>
+                    <div>Mã nhân viên</div>
+                </td>
+                <td>
+                    <input type="text" name="maNV" value="@ViewBag.maNV" class = "form-control"/>
+                </td>
+
+            </tr>
+            <tr>
+                <td>Tên nhân viên </td>
+                <td>
+                    <input type="text" name="tenNV" value="@ViewBag.tenNV" class = "form-control"/>
+                </td>
+
+            </tr>
+
+            <tr>
+                <td>Giới tính </td>
+                <td>
+                    @if (@ViewBag.gioiTinh == null)
+                    {
+                        <input type="radio" name="gioiTinh" value="1" /><text>Nam</text>
+                        <input type="radio" name="gioiTinh" value="0" /><text>Nữ</text>
+                    }
+                    else if (@ViewBag.gioiTinh == "1")
+                    {
+                        <input type="radio" name="gioiTinh" checked value="1" /><text>Nam</text>
+                        <input type="radio" name="gioiTinh" value="0" /><text>Nữ</text>
+                    }
+                    else
+                    {
+                        <input type="radio" name="gioiTinh" value="1" /><text>Nam</text>
+                        <input type="radio" name="gioiTinh" checked value="0" /><text>Nữ</text>
+                    }
+
+
+                </td>
+
+            </tr>
+            <tr>
+                <td>Địa chỉ </td>
+                <td>
+                    <input type="text" name="diaChi" value="@ViewBag.diaChi" class = "form-control"/>
+                </td>
+            </tr>
+            <tr>
+                <td>Email </td>
+                <td>
+                    <input type="text" name="email" value="@ViewBag.email" class = "form-control"/>
+                </td>
+            </tr>
+            <tr>
+                <td>Số điện thoại </td>
+                <td>
+                    <input type="text" name="sdt" value="@ViewBag.sdt" class = "form-control"/>
+                </td>
+            </tr>
+            <tr>
+                <td>Nhóm nhân viên </td>
+                <td>
+                    @Html.DropDownList("idNhom", null, "Tất cả", htmlAttributes: new { @class = "form-control" })
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>
+                    <input type="submit" name="submit" value="Tìm kiếm" style="margin-left: 5px;width:100px;
+                background-color: blue;color:white" />
+                    <input type="button" name="Nhapmoi" value="Nhập mới" style="margin-left: 5px;width:100px;
+                background-color: blue;color:white" onclick="location.href='@Url.Action("Search", "NhanViens")'" />
+                </td>
+            </tr>
+            <tr>
+                <td><br /></td>
+            </tr>
+        </table>
+        }
+    </div>
+    <div id="gridContent">
+        @ViewBag.TB
+        @grid.GetHtml(
+            tableStyle: "table table-bordered table-hover",
+            footerStyle: "grid-footer",
+            fillEmptyRows: true,
+            mode: WebGridPagerModes.Numeric,
+            alternatingRowStyle: "alternatingRowStyle",
+              columns: new[]  // colums in grid
+             {
+         grid.Column("STT",format: item => item.WebGrid.Rows.IndexOf(item) + 1 + Math.Round(Convert.ToDouble(grid.TotalRowCount / grid.PageCount) / grid.RowsPerPage) * grid.RowsPerPage * grid.PageIndex),
+        grid.Column("maNV","Mã nhân viên"), //the model fields to display
+        grid.Column("tenNV","Tên nhân viên"),
+        grid.Column("gioiTinh","Giới tính",format: (@item) => @item.GioiTinh==true?"Nam":"Nữ"),
+        grid.Column("ngaySinh","Ngày sinh",format:@<text> @item.NgaySinh.ToString("dd/MM/yyyy")</text>),
+grid.Column("diaChi","Địa chỉ"),
+grid.Column("email","Email"),
+grid.Column("sdt","Số điện thoại"),
+grid.Column("hinhAnh","Hình ảnh"),
+grid.Column("Chức năng", format: @<text>
+            <a href="@Url.Action("Edit",
+                        new { id = item.MaNV})" class="edit-btn"><abbr title="Cập nhật dữ liệu"><img src="/images/edit.png" width="20" height="20" /></abbr></a>
+            <a href="@Url.Action("Details",
+                        new { id = item.MaNV})" class="edit-btn"><abbr title="Xem chi tiết"><img src="/images/details.png" width="20" height="20" /></abbr></a>
+            <a href="@Url.Action("Delete",
+                        new { id = item.MaNV})" class="edit-btn">
+                <abbr title="Xóa dữ liệu">
+                    <img src="/images/delete.png" width="20" height="20" />
+                </abbr>
+            </a>
+    </text>),
+
+}
+)
+    </div>
+</body>
+</html>

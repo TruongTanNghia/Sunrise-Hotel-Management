@@ -1,0 +1,93 @@
+﻿@model DoAnHMS.Models.PhieuThuePhong
+
+@{
+    ViewBag.Title = "Phiếu thuê phòng - Chi tiết";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    var grid = new WebGrid(Model.CTPhieuThuePhongs);
+}
+
+<style type="text/css">
+    .grid-footer {
+        color: #000;
+        font: 17px Calibri;
+        text-align: center;
+        font-weight: bold;
+    }
+
+        .grid-footer a {
+            background-color: #ffffff;
+            color: blue;
+            box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+            padding: 1px 10px 2px 10px;
+        }
+
+            .grid-footer a:active, a:hover {
+                background-color: #ffffff;
+                color: #FFAD33;
+                box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+            }
+
+    .alternatingRowStyle {
+        background-color: aliceblue;
+    }
+
+    table .table1 {
+        text-align: left;
+        margin-left: 0px;
+        margin-right: 0px;
+        width: 800px;
+    }
+
+    .tr, .td {
+        text-align: left;
+    }
+</style>
+
+<h3>Thông tin phiếu đặt phòng</h3>
+<div class="row">
+    <div class="col-md-6">
+        <b>@Html.DisplayNameFor(model => model.maPTP):</b> @Html.DisplayFor(model => model.maPTP)
+    </div>
+    <div class="col-md-6">
+        <b>@Html.DisplayNameFor(model => model.maPTP):</b> @{ string maPDP = Model.maPDP; if (Model.maPDP == null) { maPDP = "Không có"; }} @maPDP
+    </div>
+    <div class="col-md-6">
+        <b>@Html.DisplayNameFor(model => model.maKH):</b> @Html.DisplayFor(model => model.KhachHang.tenKH)
+    </div>
+    <div class="col-md-6">
+        <b>@Html.DisplayNameFor(model => model.ngayThue):</b> @{ string ngayThue = Model.ngayThue.ToString("dd/MM/yyyy");} @ngayThue
+    </div>
+    <div class="col-md-6">
+        <b>@Html.DisplayNameFor(model => model.ngayTra):</b> @{ string ngayTra = Model.ngayTra.ToString("dd/MM/yyyy");} @ngayTra
+    </div>
+    <div class="col-md-6">
+        <b>@Html.DisplayNameFor(model => model.maNV):</b> @Html.DisplayFor(model => model.NhanVien.tenNV)
+    </div>
+</div>
+<br />
+
+<h5>Chi tiết phiếu thuê phòng</h5>
+<p>@Html.ActionLink("Thuê thêm phòng hoặc sử dụng dịch vụ", "CreateCTPhieuThue", new { maPTP = Model.maPTP })</p>
+<div id="gridContent">
+    @grid.GetHtml(
+        tableStyle: "table table-bordered table-hover",
+        footerStyle: "grid-footer",
+        mode: WebGridPagerModes.Numeric,
+        alternatingRowStyle: "alternatingRowStyle",
+          columns: new[]  // colums in grid
+         {
+              grid.Column("STT", format: item => item.WebGrid.Rows.IndexOf(item) + 1 + Math.Round(Convert.ToDouble(grid.TotalRowCount / grid.PageCount) / grid.RowsPerPage) * grid.RowsPerPage * grid.PageIndex),
+     grid.Column("maP", "Mã phòng"),
+     grid.Column("DichVu.tenDV", "Dịch vụ"),
+     grid.Column("soLuong", "Số lượng"),
+grid.Column("ngaySD", "Ngày sử dụng", format:@<text> @item.ngaySD.ToString("dd/MM/yyyy hh:mm")</text>),
+grid.Column("", format: @<text>
+    <a href="@Url.Action("DeleteCTPhieuThue", new { maPTP = item.maPTP, maP = item.maP, maDV = item.maDV, ngaySD = item.ngaySD})"><i class="fa fa-trash"></i></a>
+</text>)
+}
+)
+</div>
+<p>
+    @Html.ActionLink("Sửa", "Edit", new { id = Model.maPTP }) |
+    @Html.ActionLink("Trở về", "Index")
+</p>

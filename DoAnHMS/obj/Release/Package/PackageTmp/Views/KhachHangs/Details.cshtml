@@ -1,0 +1,74 @@
+﻿@model DoAnHMS.Models.KhachHang
+
+@{
+    ViewBag.Title = "Khách hàng - Xem chi tiết";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h3>Thông tin khách hàng</h3>
+
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.tenKH)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.tenKH)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.gioiTinh)
+        </dt>
+
+        <dd>
+            @{string gt = ""; if (Model.gioiTinh == true) { gt = "Nam"; } else { gt = "Nữ"; }} @gt
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.cmnd_passport)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.cmnd_passport)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.diaChi)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.diaChi)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.quocTich)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.quocTich)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.email)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.email)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.sdt)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.sdt)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Sửa", "Edit", new { id = Model.maKH }) |
+    @Html.ActionLink("Trở về", "Index")
+</p>

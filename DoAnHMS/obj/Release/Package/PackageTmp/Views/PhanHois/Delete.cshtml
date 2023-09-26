@@ -1,0 +1,71 @@
+﻿@model DoAnHMS.Models.PhanHoi
+
+@{
+    ViewBag.Title = "Phản hồi - Xóa";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h3>Bạn có chắc chắn muốn xóa thông tin này?</h3>
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.hoTen)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.hoTen)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.sdt)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.sdt)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.email)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.email)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.noiDung)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.noiDung)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ngayGui)
+        </dt>
+
+        <dd>
+            @{ string ngayGui = Model.ngayGui.ToString("dd/MM/yyy hh:mm");} @ngayGui
+
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.tinhTrang)
+        </dt>
+
+        <dd>
+            @{ string tt = ""; if (Model.tinhTrang == true) { tt = "Đã xử lý"; } else { tt = "Chưa xử lý"; }
+            } @tt
+        </dd>
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Xóa" class="btn btn-primary" /> |
+            @Html.ActionLink("Trở về", "Index")
+        </div>
+    }
+</div>

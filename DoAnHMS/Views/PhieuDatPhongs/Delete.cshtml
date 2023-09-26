@@ -1,0 +1,105 @@
+﻿@model DoAnHMS.Models.PhieuDatPhong
+
+@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    var grid = new WebGrid(Model.CTPhieuDatPhongs);
+}
+
+
+<style type="text/css">
+    .grid-footer {
+        color: #000;
+        font: 17px Calibri;
+        text-align: center;
+        font-weight: bold;
+    }
+
+        .grid-footer a {
+            background-color: #ffffff;
+            color: blue;
+            box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+            padding: 1px 10px 2px 10px;
+        }
+
+            .grid-footer a:active, a:hover {
+                background-color: #ffffff;
+                color: #FFAD33;
+                box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+            }
+
+    .alternatingRowStyle {
+        background-color: aliceblue;
+    }
+
+    table .table1 {
+        text-align: left;
+        margin-left: 0px;
+        margin-right: 0px;
+        width: 800px;
+    }
+
+    .tr, .td {
+        text-align: left;
+    }
+</style>
+
+<div>
+<h2>Bạn có chắc chắn muốn xóa phiếu đặt phòng này?</h2>
+<h3 class="text-warning">(Phiếu thuê phòng liên quan và chi tiết phiếu đặt, thuê sẽ được xóa theo)</h3>
+<hr />
+
+<h3>Thông tin phiếu đặt phòng</h3>
+<div class="row">
+    <div class="col-md-6">
+        <b>Mã phiếu đặt phòng:</b> @Html.DisplayFor(model => model.maPDP)
+    </div>
+    <div class="col-md-6">
+        <b>Tên khách hàng:</b> @Html.DisplayFor(model => model.KhachHang.tenKH)
+    </div>
+    <div class="col-md-6">
+        <b>Ngày đến:</b> @{ string ngayDen = Model.ngayDen.ToString("dd/MM/yyyy");} @ngayDen
+    </div>
+    <div class="col-md-6">
+        <b>Ngày đi:</b> @{ string ngayDi = Model.ngayDi.ToString("dd/MM/yyyy");} @ngayDi
+    </div>
+    <div class="col-md-6">
+        <b>Số người:</b> @Html.DisplayFor(model => model.soNguoi)
+    </div>
+    <div class="col-md-6">
+        <b>Tình trạng:</b> @{ string tt = ""; if (Model.tinhTrang == false) { tt = "Chưa nhận phòng"; } else { tt = "Đã nhận phòng"; } } @tt
+    </div>
+    <div class="col-md-6">
+        <b>Nhân viên:</b> @Html.DisplayFor(model => model.NhanVien.tenNV)
+    </div>
+</div>
+<br />
+
+<h5>Chi tiết phiếu đặt phòng</h5>
+<div id="gridContent">
+    @grid.GetHtml(
+        tableStyle: "table table-bordered table-hover",
+        footerStyle: "grid-footer",
+        mode: WebGridPagerModes.Numeric,
+        alternatingRowStyle: "alternatingRowStyle",
+          columns: new[]  // colums in grid
+         {
+              grid.Column("STT", format: item => item.WebGrid.Rows.IndexOf(item) + 1 + Math.Round(Convert.ToDouble(grid.TotalRowCount / grid.PageCount) / grid.RowsPerPage) * grid.RowsPerPage * grid.PageIndex),
+     grid.Column("maP", "Mã phòng"),
+grid.Column("tienCoc", "Tiền cọc"),
+grid.Column("Phong.LoaiPhong.tenLP", "Loại Phòng"),
+grid.Column("Phong.LoaiPhong.sucChua", "Sức chứa")
+}
+)
+</div>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-actions no-color">
+        <input type="submit" value="Xóa" class="btn btn-primary" /> |
+        @Html.ActionLink("Trở về", "Index")
+    </div>
+}
+</div>

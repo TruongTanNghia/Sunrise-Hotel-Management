@@ -1,0 +1,57 @@
+﻿@model DoAnHMS.Models.LienHe
+
+@{
+    ViewBag.title = "Liên hệ - Chi tiết";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+    <div>
+        <h3>Chi tiết liên hệ</h3>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                Họ tên
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.hoTen)
+            </dd>
+
+            <dt>
+                Số điện thoại
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.sdt)
+            </dd>
+
+            <dt>
+                Email
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.email)
+            </dd>
+
+            <dt>
+                Ngày gửi
+            </dt>
+
+            <dd>
+                @{ string ngayGui = Model.ngayGui.ToString("dd/MM/yyyy hh:mm");} @ngayGui
+            </dd>
+
+            <dt>
+                Tình trạng phòng
+            </dt>
+
+            <dd>
+                @{ string tt = ""; if (Model.tinhTrang == true) { tt = "Đã xử lý"; } else { tt = "Chưa xử lý"; }
+                } @tt
+            </dd>
+
+        </dl>
+    </div>
+    <p>
+        @Html.ActionLink("Trở về", "Index")
+    </p>

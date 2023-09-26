@@ -1,0 +1,46 @@
+﻿@model DoAnHMS.Models.DichVu
+
+@{
+    ViewBag.Title = "Dịch vụ - Xóa";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h3>Bạn có chắc là muốn xóa dịch vụ này?</h3>
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+
+        <dt>
+            Mã dịch vụ
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.maDV)
+        </dd>
+        <dt>
+            Tên dịch vụ
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.tenDV)
+        </dd>
+
+        <dt>
+            Giá
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.gia)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Xóa" class="btn btn-primary" /> |
+            @Html.ActionLink("Trở về", "Index")
+        </div>
+    }
+</div>

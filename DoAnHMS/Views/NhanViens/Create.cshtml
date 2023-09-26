@@ -1,0 +1,92 @@
+﻿@model DoAnHMS.Models.NhanVien
+
+@{
+    ViewBag.Title = "Nhân viên - Thêm mới";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h3>THÊM MỚI NHÂN VIÊN</h3>
+@using (Html.BeginForm("Create", "NhanViens", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+
+<div class="form-horizontal">
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <div class="form-group1">
+        @Html.LabelFor(model => model.maNV,"Mã nhân viên", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.maNV, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", @Value = ViewBag.MaNV } })
+            @Html.ValidationMessageFor(model => model.maNV, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group1">
+        @Html.LabelFor(model => model.tenNV,"Tên nhân viên", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.tenNV, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.tenNV, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group1">
+        @Html.LabelFor(model => model.gioiTinh,"Giới tính", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            <div class="checkbox">
+                Nam @Html.RadioButtonFor(model => model.gioiTinh, "True", new { @checked = "checked" }) &nbsp;
+                Nữ @Html.RadioButtonFor(model => model.gioiTinh, "False")
+                @Html.ValidationMessageFor(model => model.gioiTinh, "", new { @class = "text-danger" })
+            </div>
+
+        </div>
+    </div>
+
+    <div class="form-group1">
+        @Html.LabelFor(model => model.ngaySinh,"Ngày sinh", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.ngaySinh, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.ngaySinh, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group1">
+        @Html.LabelFor(model => model.diaChi,"Địa chỉ", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.diaChi, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.diaChi, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group1">
+        @Html.LabelFor(model => model.email,"Email", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.email, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.email, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group1">
+        @Html.LabelFor(model => model.sdt,"Số điện thoại", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.sdt, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.sdt, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group1">
+        @Html.LabelFor(model => model.hinhAnh, "Ảnh đại diện", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            <input type="file" style="height:30px;" name="Avatar" accept="image/*" required />
+            @Html.ValidationMessageFor(model => model.hinhAnh, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group1">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Thêm mới" class="btn btn-primary" />
+
+        </div>
+    </div>
+</div>
+}
+
+<div>
+    @Html.ActionLink("Quay lại", "Index")
+</div>

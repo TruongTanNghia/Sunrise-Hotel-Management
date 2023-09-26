@@ -1,0 +1,105 @@
+﻿@model List<DoAnHMS.Models.DichVu>
+
+@{
+    ViewBag.Title = "ByDichVu";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var grid = new WebGrid(Model, defaultSort: "maDV");
+}
+
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>TimKiem</title>
+    <style type="text/css">
+        .grid-footer {
+            color: #000;
+            font: 17px Calibri;
+            text-align: center;
+            font-weight: bold;
+        }
+
+            .grid-footer a {
+                background-color: #ffffff;
+                color: blue;
+                box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+                padding: 1px 10px 2px 10px;
+            }
+
+                .grid-footer a:active, a:hover {
+                    background-color: #ffffff;
+                    color: #FFAD33;
+                    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+                }
+
+        .alternatingRowStyle {
+            background-color: aliceblue;
+        }
+    </style>
+</head>
+<body>
+    <h3>KIỂM TRA PHÒNG TRỐNG</h3>
+    <hr />
+
+    <div>
+        @using (Html.BeginForm("ByDichVu", "ThongKe", FormMethod.Get))
+        {
+            @Html.AntiForgeryToken()
+
+
+            <table class="table1" align="center">
+                <tr>
+                    <td>
+                        <div>Từ ngày </div>
+                    </td>
+                    <td>
+                        <input type="date" name="fromDate" value="@ViewBag.fromDate" class="form-control" />
+                    </td>
+
+                </tr>
+                <tr>
+                    <td>đến ngày </td>
+                    <td>
+                        <input type="date" name="toDate" value="@ViewBag.toDate" class="form-control" />
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>
+                        <input type="submit" name="submit" value="Thống kê" style="margin-left: 5px;width:100px;
+                background-color: blue;color:white" />
+                        <input type="button" name="Nhapmoi" value="Nhập mới" style="margin-left: 5px;width:100px;
+                background-color: blue;color:white" onclick="location.href='@Url.Action("ByDichVu", "ThognKe")'" />
+
+                    </td>
+                </tr>
+                <tr>
+                    <td><br /></td>
+                </tr>
+            </table>
+        }
+    </div>
+    <div id="gridContent">
+        @ViewBag.TB
+        @grid.GetHtml(
+            tableStyle: "table table-bordered table-hover",
+            footerStyle: "grid-footer",
+            mode: WebGridPagerModes.Numeric,
+            alternatingRowStyle: "alternatingRowStyle",
+              columns: new[]  // colums in grid
+              {
+                grid.Column("STT",format: item => item.WebGrid.Rows.IndexOf(item) + 1 + Math.Round(Convert.ToDouble(grid.TotalRowCount / grid.PageCount) / grid.RowsPerPage) * grid.RowsPerPage * grid.PageIndex),
+                grid.Column("maDV","Mã dịch vụ"), //the model fields to display
+                grid.Column("tenDV","Tên dịch vụ"),
+                grid.Column("DoanhThu","Doanh Thu"),
+                }
+                )
+    </div>
+    <div>
+        @Html.ActionLink("Quay lại", "Index", "Home")
+    </div>
+</body>
+</html>
+

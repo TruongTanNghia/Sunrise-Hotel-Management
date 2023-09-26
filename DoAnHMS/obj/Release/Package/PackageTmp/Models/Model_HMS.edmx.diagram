@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="55edad21920d4d5aae91de3a11e32d9b" Name="Diagram1">
+        <EntityTypeShape EntityType="DoAnHMSModel.CTPhieuDatPhong" Width="1.5" PointX="8.25" PointY="7.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DoAnHMSModel.CTPhieuThuePhong" Width="1.5" PointX="13.5" PointY="7.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="DoAnHMSModel.DanhSachQuyen" Width="1.5" PointX="3" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DoAnHMSModel.DichVu" Width="1.5" PointX="11.25" PointY="3.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="DoAnHMSModel.HoaDon" Width="1.5" PointX="3" PointY="7.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="DoAnHMSModel.KhachHang" Width="1.5" PointX="9" PointY="3.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="DoAnHMSModel.LienHe" Width="1.5" PointX="5.75" PointY="2" IsExpanded="true" />
+        <EntityTypeShape EntityType="DoAnHMSModel.LoaiPhong" Width="1.5" PointX="3.75" PointY="11.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="DoAnHMSModel.NhanVien" Width="1.5" PointX="0.75" PointY="7.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="DoAnHMSModel.NhomNhanVien" Width="1.5" PointX="0.75" PointY="3.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="DoAnHMSModel.PhanHoi" Width="1.5" PointX="0.75" PointY="12" IsExpanded="true" />
+        <EntityTypeShape EntityType="DoAnHMSModel.PhieuDatPhong" Width="1.5" PointX="6" PointY="7.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="DoAnHMSModel.PhieuThuePhong" Width="1.5" PointX="11.25" PointY="7.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="DoAnHMSModel.Phong" Width="1.5" PointX="6" PointY="11.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DoAnHMSModel.QuanTri" Width="1.5" PointX="3" PointY="3.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="DoAnHMSModel.Quyen" Width="1.5" PointX="0.75" PointY="1.125" IsExpanded="true" />
+        <AssociationConnector Association="DoAnHMSModel.ctpdp_p_fk" ManuallyRouted="false" />
+        <AssociationConnector Association="DoAnHMSModel.ctpdp_pdp_fk" ManuallyRouted="false" />
+        <AssociationConnector Association="DoAnHMSModel.ctptp_dv_fk" ManuallyRouted="false" />
+        <AssociationConnector Association="DoAnHMSModel.ctptp_p_fk" ManuallyRouted="false" />
+        <AssociationConnector Association="DoAnHMSModel.ctptp_ptp_fk" ManuallyRouted="false" />
+        <AssociationConnector Association="DoAnHMSModel.FK_DanhSachQuyen_NhomNhanVien" ManuallyRouted="false" />
+        <AssociationConnector Association="DoAnHMSModel.FK_DanhSachQuyen_Quyen" ManuallyRouted="false" />
+        <AssociationConnector Association="DoAnHMSModel.hd_nv_fk" ManuallyRouted="false" />
+        <AssociationConnector Association="DoAnHMSModel.hd_ptp_fk" ManuallyRouted="false" />
+        <AssociationConnector Association="DoAnHMSModel.pdp_kh_fk" ManuallyRouted="false" />
+        <AssociationConnector Association="DoAnHMSModel.ptp_kh_fk" ManuallyRouted="false" />
+        <AssociationConnector Association="DoAnHMSModel.p_lp_fk" ManuallyRouted="false" />
+        <AssociationConnector Association="DoAnHMSModel.pdp_nv_fk" ManuallyRouted="false" />
+        <AssociationConnector Association="DoAnHMSModel.ptp_nv_fk" ManuallyRouted="false" />
+        <AssociationConnector Association="DoAnHMSModel.qt_nv_fk" ManuallyRouted="false" />
+        <AssociationConnector Association="DoAnHMSModel.qt_nnv_fk" ManuallyRouted="false" />
+        <AssociationConnector Association="DoAnHMSModel.ptp_pdp_fk" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

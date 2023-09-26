@@ -1,0 +1,104 @@
+﻿@model List<DoAnHMS.Models.CTPhieuThuePhong>
+@{
+    ViewBag.Title = "Kiểm tra phòng trống";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    var grid = new WebGrid(Model, defaultSort: "maP");
+}
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>TimKiem</title>
+    <style type="text/css">
+        .grid-footer {
+            color: #000;
+            font: 17px Calibri;
+            text-align: center;
+            font-weight: bold;
+        }
+
+            .grid-footer a {
+                background-color: #ffffff;
+                color: blue;
+                box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+                padding: 1px 10px 2px 10px;
+            }
+
+                .grid-footer a:active, a:hover {
+                    background-color: #ffffff;
+                    color: #FFAD33;
+                    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+                }
+
+        .alternatingRowStyle {
+            background-color: aliceblue;
+        }
+    </style>
+</head>
+<body>
+    <h3>KIỂM TRA PHÒNG TRỐNG</h3>
+    <hr />
+
+    <div>
+        @using (Html.BeginForm("Index", "KiemTraPhongTrong"))
+        {
+            @Html.AntiForgeryToken()
+
+
+            <table class="table1" align="center">
+                <tr>
+                    <td>
+                        <div>Ngày đến </div>
+                    </td>
+                    <td>
+                        <input type="date" name="ngayDen" value="@ViewBag.ngayDen" class="form-control" />
+                    </td>
+
+                </tr>
+                <tr>
+                    <td>Ngày đi </td>
+                    <td>
+                        <input type="date" name="ngayDi" value="@ViewBag.ngayDi" class="form-control" />
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>
+                        <input type="submit" name="submit" value="Tìm kiếm" style="margin-left: 5px;width:100px;
+                background-color: blue;color:white" />
+                        <input type="button" name="Nhapmoi" value="Nhập mới" style="margin-left: 5px;width:100px;
+                background-color: blue;color:white" onclick="location.href='@Url.Action("Index", "KiemTraPhongTrong")'" />
+
+                    </td>
+                </tr>
+                <tr>
+                    <td><br /></td>
+                </tr>
+            </table>
+        }
+    </div>
+    @if (Model.Count > 0)
+    {
+        <table class="table1" align="center">
+            <tr>
+                <td>Mã Phòng</td>
+                <td>Mã Loại Phòng</td>
+
+            </tr>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.Phong.maP</td>
+                    <td>@item.Phong.maP</td>
+                </tr>
+            }
+        </table>
+    }
+    <div>
+        @Html.ActionLink("Quay lại", "Index", "Home")
+    </div>
+</body>
+</html>
+
+

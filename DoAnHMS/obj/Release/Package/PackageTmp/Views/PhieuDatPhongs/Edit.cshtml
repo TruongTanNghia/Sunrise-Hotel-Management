@@ -1,0 +1,123 @@
+﻿@model DoAnHMS.Models.PhieuDatPhong
+
+@{
+    ViewBag.Title = "Phiếu đặt phòng - Sửa";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+<style>
+    input#ngayDen, input#ngayDi {
+        background-color: white;
+    }
+</style>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+<div class="form-horizontal">
+    <h4>Chỉnh sửa phiếu đặt phòng</h4>
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.maPDP, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-6">
+            @Html.EditorFor(model => model.maPDP, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+            @Html.ValidationMessageFor(model => model.maPDP, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.maKH, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-6">
+            @Html.DropDownList("maKH", null, htmlAttributes: new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.maKH, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.ngayDen, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-6">
+            @Html.EditorFor(model => model.ngayDen, new { htmlAttributes = new { @class = "datepicker form-control", @readonly = "true", @type = "text", @Value = Model.ngayDen.ToString("MM/dd/yyyy") } })
+            @Html.ValidationMessageFor(model => model.ngayDen, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.ngayDi, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-6">
+            @Html.EditorFor(model => model.ngayDi, new { htmlAttributes = new { @class = "datepicker form-control", @readonly = "true", @type = "text", @Value = Model.ngayDi.ToString("MM/dd/yyyy") } })
+            @Html.ValidationMessageFor(model => model.ngayDi, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.tongTienCoc, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-6">
+            @Html.EditorFor(model => model.tongTienCoc, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+            @Html.ValidationMessageFor(model => model.tongTienCoc, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.soNguoi, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-6">
+            @Html.EditorFor(model => model.soNguoi, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.soNguoi, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.tinhTrang, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-6">
+            <div class="checkbox">
+                Chưa nhận phòng @Html.RadioButtonFor(model => model.tinhTrang, "False") &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                Đã nhận phòng @Html.RadioButtonFor(model => model.tinhTrang, "True")
+                @Html.ValidationMessageFor(model => model.tinhTrang, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.maNV, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-6">
+            @Html.DropDownList("maNV", null, htmlAttributes: new { @class = "form-control", @disabled="disabled" })
+            @Html.HiddenFor(model => model.maNV)
+            @Html.ValidationMessageFor(model => model.maNV, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Lưu" class="btn btn-primary" />
+        </div>
+    </div>
+</div>
+}
+
+<div>
+    @Html.ActionLink("Trở về", "Index")
+</div>
+
+@section Scripts {
+
+    @Scripts.Render("~/bundles/jqueryui")
+    @Styles.Render("~/Content/cssjqryUi")
+
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="/resources/demos/style.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('.datepicker').datepicker({
+                dateFormat: "mm/dd/yy",
+                changeMonth: true,
+                changeYear: true,
+                yearRange: "-60:+0"
+            });
+
+        });
+    </script>
+
+}

@@ -1,0 +1,74 @@
+﻿@model DoAnHMS.Models.KhachHang
+
+@{
+    ViewBag.Title = "Khách hàng - Xem chi tiết";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h3>Thông tin khách hàng</h3>
+
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            Tên khách hàng
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.tenKH)
+        </dd>
+
+        <dt>
+            Giới tính
+        </dt>
+
+        <dd>
+            @{string gt = ""; if (Model.gioiTinh == true) { gt = "Nam"; } else { gt = "Nữ"; }} @gt
+        </dd>
+
+        <dt>
+            CMND/Hộ chiếu
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.cmnd_passport)
+        </dd>
+
+        <dt>
+            Địa chỉ
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.diaChi)
+        </dd>
+
+        <dt>
+            Quốc tịch
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.quocTich)
+        </dd>
+
+        <dt>
+            Email
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.email)
+        </dd>
+
+        <dt>
+            Số điện thoại
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.sdt)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Sửa", "Edit", new { id = Model.maKH }) |
+    @Html.ActionLink("Trở về", "Index")
+</p>

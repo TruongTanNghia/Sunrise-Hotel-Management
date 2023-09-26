@@ -1,0 +1,132 @@
+﻿@model IEnumerable<DoAnHMS.Models.PhieuDatPhong>
+@{
+    ViewBag.Title = "Danh sách phiếu đặt phòng";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    WebGrid webGrid = new WebGrid(Model, canPage: true, defaultSort: "maPDP", rowsPerPage: 5);
+}
+
+<style type="text/css">
+    #gridContent {
+        font-size: 15px;
+    }
+    .grid-footer {
+        color: #000;
+        font: 17px Calibri;
+        text-align: center;
+        font-weight: bold;
+    }
+
+        .grid-footer a {
+            background-color: #ffffff;
+            color: blue;
+            box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+            padding: 1px 10px 2px 10px;
+        }
+
+            .grid-footer a:active, a:hover {
+                background-color: #ffffff;
+                color: #FFAD33;
+                box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+            }
+
+    .alternatingRowStyle {
+        background-color: aliceblue;
+    }
+
+    table .table1 {
+        text-align: left;
+        margin-left: 0px;
+        margin-right: 0px;
+        width: 800px;
+    }
+
+    .tr, .td {
+        text-align: left;
+    }
+
+    .ChildGrid {
+        width: 80%;
+        margin: 0 auto
+    }
+
+        .ChildGrid th {
+            background-color: #4e73df;
+            color: #fff;
+            font-weight: bold;
+        }
+</style>
+
+<h3>DANH SÁCH PHIẾU ĐẶT PHÒNG</h3>
+<p>
+    @Html.ActionLink("Thêm mới phiếu đặt phòng", "Create")
+</p>
+<div id="gridContent">
+    @webGrid.GetHtml(
+            htmlAttributes: new { @id = "WebGrid" },
+            tableStyle: "table table-bordered table-hover",
+            footerStyle: "grid-footer",
+            fillEmptyRows: true,
+            mode: WebGridPagerModes.Numeric,
+            alternatingRowStyle: "alternatingRowStyle",
+            columns: webGrid.Columns(
+                     webGrid.Column(null, null, format: @<text>
+                            <img src="/Images/plus.png" style="height:20px; width: 20px" />
+                            <div style="display:none"></div></text>),
+webGrid.Column("STT", format: item => item.WebGrid.Rows.IndexOf(item) + 1 + Math.Round(Convert.ToDouble(webGrid.TotalRowCount / webGrid.PageCount) / webGrid.RowsPerPage) * webGrid.RowsPerPage * webGrid.PageIndex),
+webGrid.Column("maPDP", "Mã phiếu đặt"), //the model fields to display
+webGrid.Column("ngayDen", "Ngày đến", format:@<text> @item.ngayDen.ToString("dd/MM/yyyy")</text>),
+webGrid.Column("ngayDi", "Ngày đi", format:@<text> @item.ngayDi.ToString("dd/MM/yyyy")</text>),
+webGrid.Column("tongTienCoc", "Tổng tiền cọc"),
+webGrid.Column("soNguoi", "Số người"),
+webGrid.Column("tinhTrang", "Tình trạng", format: (@item) => @item.tinhTrang == true ? "Đã nhận phòng" : "Chưa nhận phòng"),
+webGrid.Column("KhachHang.tenKH", "Khách hàng"),
+webGrid.Column("NhanVien.TenNV", "Nhân viên"),
+webGrid.Column(format: (item) =>
+{
+WebGrid childGrid = new WebGrid(source: item.CTPhieuDatPhongs, canSort: false, canPage: false);
+return childGrid.GetHtml(
+htmlAttributes: new { @class = "ChildGrid" },
+
+columns: childGrid.Columns(
+childGrid.Column("STT", format: item2 => item2.WebGrid.Rows.IndexOf(item2) + 1 + Math.Round(Convert.ToDouble(childGrid.TotalRowCount / childGrid.PageCount) / childGrid.RowsPerPage) * childGrid.RowsPerPage * childGrid.PageIndex),
+childGrid.Column("maP", "Mã phòng"),
+childGrid.Column("tienCoc", "Tiền cọc"),
+childGrid.Column("Phong.LoaiPhong.tenLP", "Loại Phòng"),
+childGrid.Column("Phong.LoaiPhong.sucChua", "Sức chứa")
+));
+}),
+webGrid.Column("", format: @<text>
+            <a href="@Url.Action("Edit", new { id = item.maPDP})"><i class="fas fa-edit"></i></a>&nbsp;|&nbsp;
+            <a href="@Url.Action("Details", new { id = item.maPDP})"><i class="fa fa-info-circle"></i></a>&nbsp;|&nbsp;
+            <a href="@Url.Action("Delete", new { id = item.maPDP})"><i class="fa fa-trash"></i></a>
+</text>)
+))
+</div>
+
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<script type="text/javascript">
+    $(function () {
+        //Loop through all Child Grids.
+        $("#WebGrid .ChildGrid").each(function () {
+            //Copy the Child Grid to DIV.
+            var childGrid = $(this).clone();
+            $(this).closest("TR").find("TD").eq(0).find("DIV").append(childGrid);
+
+            //Remove the Last Column from the Row.
+            $(this).parent().remove();
+        });
+
+        //Remove Last Column from Header Row.
+        $("#WebGrid TH:last-child").eq(0).remove();
+    });
+    //Assign Click event to Plus Image.
+    $("body").on("click", "img[src*='plus.png']", function () {
+        $(this).closest("tr").after("<tr><td></td><td colspan = '999'>" + $(this).next().html() + "</td></tr>");
+        $(this).attr("src", "/images/minus.png");
+    });
+    //Assign Click event to Minus Image.
+    $("body").on("click", "img[src*='minus.png']", function () {
+        $(this).attr("src", "/images/plus.png");
+        $(this).closest("tr").next().remove();
+    });
+</script>

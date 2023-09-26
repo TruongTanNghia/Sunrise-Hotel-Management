@@ -1,0 +1,62 @@
+﻿@model DoAnHMS.Models.QuanTri
+
+@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    string tinhTrang = "";
+}
+
+<style>
+    tr, td {
+        font-size: 20px
+    }
+</style>
+
+<h3 style="color:red;"> Bạn có chắc chắn xóa thông tin này?</h3>
+<table border="0" cellpadding="0" cellspacing="0" style="font-size:14px;margin-left:50px;">
+    <tr>
+        <td>
+            <table cellpadding="2" cellspacing="10">
+                <tr>
+                    <td colspan="2"><b>THÔNG TIN CHI TIẾT</b></td>
+                </tr>
+                <tr>
+                    <td><b>Tài khoản: </b></td>
+                    <td>@Html.DisplayFor(model => model.username)</td>
+                </tr>
+                <tr>
+                    <td><b>Mật khẩu: </b></td>
+                    <td>@Html.DisplayFor(model => model.password)</td>
+                </tr>
+                <tr>
+                    <td><b>Tình trạng: </b></td>
+                    <td>
+                        @{if (Model.tinhTrang == true)
+                            { tinhTrang = "Hoạt động"; }
+                            else
+                            { tinhTrang = "Tạm khóa"; }
+                        }
+                        @tinhTrang
+                    </td>
+                </tr>
+                <tr>
+                    <td><b>Nhân viên: </b></td>
+                    <td>@Html.DisplayFor(model => model.NhanVien.tenNV)</td>
+                </tr>
+                <tr>
+                    <td><b>Nhóm nhân viên: </b></td>
+                    <td>@Html.DisplayFor(model => model.NhomNhanVien.TenNhom)</td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-actions no-color" style="margin-left:50px;">
+        <input type="submit" value="Xóa" class="btn btn-primary" /> |
+        @Html.ActionLink("Quay lại", "Index")
+    </div>
+}

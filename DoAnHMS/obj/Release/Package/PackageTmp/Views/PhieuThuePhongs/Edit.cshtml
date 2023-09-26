@@ -1,0 +1,104 @@
+﻿@model DoAnHMS.Models.PhieuThuePhong
+
+@{
+    ViewBag.Title = "Phiếu thuê phòng - Sửa";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+<style>
+    input#ngayThue, input#ngayTra {
+        background-color: white;
+    }
+</style>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+<div class="form-horizontal">
+    <h4>Chỉnh sửa phiếu thuê phòng</h4>
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.maPTP, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-6">
+            @Html.EditorFor(model => model.maPTP, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+            @Html.ValidationMessageFor(model => model.maPTP, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.maPDP, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-6">
+            @Html.EditorFor(model => model.maPDP, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", @Value = ViewBag.maPDP } })
+            @Html.ValidationMessageFor(model => model.maPDP, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.maKH, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-6">
+            @Html.DropDownList("maKH", null, htmlAttributes: new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.maKH, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.ngayThue, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-6">
+            @Html.EditorFor(model => model.ngayThue, new { htmlAttributes = new { @class = "datepicker form-control", @readonly = "true", @type = "text", @Value = Model.ngayThue.ToString("MM/dd/yyyy") } })
+            @Html.ValidationMessageFor(model => model.ngayThue, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.ngayTra, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-6">
+            @Html.EditorFor(model => model.ngayTra, new { htmlAttributes = new { @class = "datepicker form-control", @readonly = "true", @type = "text", @Value = Model.ngayTra.ToString("MM/dd/yyyy") } })
+            @Html.ValidationMessageFor(model => model.ngayTra, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.maNV, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-6">
+            @Html.DropDownList("maNV", null, htmlAttributes: new { @class = "form-control", @disabled = "disabled" })
+            @Html.HiddenFor(model => model.maNV)
+            @Html.ValidationMessageFor(model => model.maNV, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Lưu" class="btn btn-primary" />
+        </div>
+    </div>
+</div>
+}
+
+<div>
+    @Html.ActionLink("Trở về", "Index")
+</div>
+
+@section Scripts {
+
+    @Scripts.Render("~/bundles/jqueryui")
+    @Styles.Render("~/Content/cssjqryUi")
+
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="/resources/demos/style.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('.datepicker').datepicker({
+                dateFormat: "mm/dd/yy",
+                changeMonth: true,
+                changeYear: true,
+                yearRange: "-60:+0"
+            });
+
+        });
+    </script>
+
+}

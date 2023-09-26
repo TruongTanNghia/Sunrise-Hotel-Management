@@ -1,0 +1,330 @@
+﻿@model DoAnHMS.Models.PhieuDatPhong
+
+@{
+    ViewBag.Title = "Phiếu đặt phòng - Thêm mới";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+@using (Html.BeginForm())
+{
+
+<div class="form-horizontal">
+    <h3>Thêm mới phiếu đặt phòng</h3>
+    <hr />
+    <h5 style="margin-top:10px;color:#ff6347">Phiếu đặt phòng</h5>
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <div class="row">
+        <div class="form-group col-md-6">
+            @Html.LabelFor(model => model.maPDP, htmlAttributes: new { @class = "control-label col-md-10" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.maPDP, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", @Value = ViewBag.maPDP } })
+                @Html.ValidationMessageFor(model => model.maPDP, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group col-md-6">
+            @Html.LabelFor(model => model.maKH, htmlAttributes: new { @class = "control-label col-md-10" })
+            <div class="col-md-10">
+                @Html.DropDownList("maKH", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.maKH, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+
+
+    <div class="row">
+        <div class="form-group col-md-6">
+            @Html.LabelFor(model => model.ngayDen, htmlAttributes: new { @class = "control-label col-md-10" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.ngayDen, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.ngayDen, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group col-md-6">
+            @Html.LabelFor(model => model.ngayDi, htmlAttributes: new { @class = "control-label col-md-10" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.ngayDi, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.ngayDi, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="form-group col-md-6">
+            @Html.LabelFor(model => model.soNguoi, htmlAttributes: new { @class = "control-label col-md-10" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.soNguoi, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.soNguoi, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group col-md-6">
+            @Html.LabelFor(model => model.tinhTrang, htmlAttributes: new { @class = "control-label col-md-10" })
+            <div class="col-md-10">
+                <div class="checkbox">
+                    Chưa nhận phòng @Html.RadioButtonFor(model => model.tinhTrang, "False", new { @checked = "checked" }) &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    Đã nhận phòng @Html.RadioButtonFor(model => model.tinhTrang, "True")
+                    @Html.ValidationMessageFor(model => model.tinhTrang, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="form-group col-md-6">
+            @Html.LabelFor(model => model.maNV, htmlAttributes: new { @class = "control-label col-md-10" })
+            <div class="col-md-10">
+                @Html.DropDownList("maNV", null, htmlAttributes: new { @class = "form-control", @disabled = "disabled" })
+                @Html.HiddenFor(model => model.maNV)
+                @Html.ValidationMessageFor(model => model.maNV, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+
+    @*PDP Details*@
+    <hr />
+    <h5 style="margin-top:10px;color:#ff6347">Chi tiết phiếu đặt phòng</h5>
+    <div class="form-horizontal">
+        <div class="row">
+            @*data-val-required="Bạn chưa nhập họ giảng viên"*@
+            <div class="form-group col-md-4">
+                <label class="control-label col-md-4">
+                    Phòng
+                </label>
+                @Html.DropDownList("maP", null, htmlAttributes: new { @class = "form-control" })
+            </div>
+            <div class="form-group col-md-4">
+                <label class="control-label col-md-4">
+                    Tiền cọc
+                </label>
+                <div class="col-md-10">
+                    <input type="number" id="tienCoc" name="tienCoc" placeholder="Tiền cọc" class="form-control" value="300000" />
+                </div>
+            </div>
+            <div class="form-group col-md-4">
+                <div class="col-md-10" style="margin-top:33px">
+                    <a id="addToList" class="btn btn-primary">Add To List</a>
+                </div>
+            </div>
+        </div>
+
+
+        <table id="detailsTable" class="table">
+            <thead>
+                <tr>
+                    <th style="width:40%">Phòng</th>
+                    <th style="width:40%">Tiền cọc</th>
+                    <th style="width:20%"></th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <button id="saveOrder" type="submit" class="btn btn-danger">Lưu</button>
+        </div>
+    </div>
+</div>
+    }
+
+    <div>
+        @Html.ActionLink("Trở về", "Index")
+    </div>
+
+    @section scripts{
+        <script>
+            //Add Multiple Order.
+            $("#addToList").click(function (e) {
+                e.preventDefault();
+                if ($.trim($("#maP").val()) == "" || $.trim($("#tienCoc").val()) == "") return;
+
+                var maP = $("#maP").val(),
+                    tienCoc = $("#tienCoc").val(),
+                    detailsTableBody = $("#detailsTable tbody");
+
+                var phongOrder = '<tr><td>' + maP + '</td><td>' + tienCoc + '</td><td><a data-itemId="0" href="#" class="deleteItem">Remove</a></td></tr>';
+                detailsTableBody.append(phongOrder);
+            });
+            //After Add A New Order In The List, Clear Clean The Form For Add More Order.
+            // After Add A New Order In The List, If You Want, You Can Remove It.
+            $(document).on('click', 'a.deleteItem', function (e) {
+                e.preventDefault();
+                var $self = $(this);
+                if ($(this).attr('data-itemId') == "0") {
+                    $(this).parents('tr').css("background-color", "#ff6347").fadeOut(800, function () {
+                        $(this).remove();
+                    });
+                }
+            });
+            //After Click Save Button Pass All Data View To Controller For Save Database
+            function saveOrder(data) {
+                return $.ajax({
+                    contentType: 'application/json; charset=utf-8',
+                    dataType: 'json',
+                    type: 'POST',
+                    url: "/PhieuDatPhongs/SaveOrder",
+                    data: data,
+                    success: function (result) {
+                        alert(result);
+                        location.replace("/PhieuDatPhongs/Index");
+                    },
+                    error: function () {
+                        alert("Có lỗi xảy ra. Kiểm tra mã phòng có trùng nhau không!")
+                    }
+                });
+            }
+            //Collect Multiple Order List For Pass To Controller
+            $("#saveOrder").click(function (e) {
+                e.preventDefault();
+                var flat = 0;
+                var fromDate = new Date($('#ngayDen').val());
+                var toDate = new Date($('#ngayDi').val());
+                if ($("#maPDP").val().toString() == "") {
+                    alert("Bạn chưa nhập mã phiếu đặt phòng");
+                    flat = 1;
+                }
+                if (isNaN(fromDate)) {
+                    alert("Bạn chưa nhập ngày đến");
+                    flat = 1;
+                }
+                if (isNaN(toDate)) {
+                    alert("Bạn chưa nhập ngày đi");
+                    flat = 1;
+                }
+                if ($("#soNguoi").val().toString() == "") {
+                    alert("Bạn chưa nhập số người");
+                    flat = 1;
+                }
+                if (fromDate > toDate) {
+                    alert("Ngày đi phải bé hơn hoặc bằng ngày đến");
+                    flat = 1;
+                }
+                if ($('#soNguoi').val() <= 0) {
+                    alert("Bạn phải nhập số người lớn hơn 0");
+                    flat = 1;
+                }
+
+                var orderArr = [];
+                orderArr.length = 0;
+
+                $.each($("#detailsTable tbody tr"), function () {
+                    orderArr.push({
+                        maP: $(this).find('td:eq(0)').html(),
+                        tienCoc: $(this).find('td:eq(1)').html(),
+                    });
+                });
+                if (orderArr.length == 0) {
+                    alert("Bạn phải thêm ít nhất 1 bảng chi tiết phiếu đặt");
+                    flat = 1;
+                }
+                if (flat == 1) {
+                    return;
+                }
+
+                var data = JSON.stringify({
+                    maPDP: $("#maPDP").val(),
+                    maKH: $("#maKH").val(),
+                    ngayDen: $("#ngayDen").val(),
+                    ngayDi: $("#ngayDi").val(),
+                    soNguoi: $("#soNguoi").val(),
+                    tinhTrang: $("#tinhTrang").val(),
+                    maNV: $("#maNV").val(),
+                    order: orderArr
+                });
+
+                $.when(saveOrder(data)).then(function (response) {
+                    console.log(response);
+                }).fail(function (err) {
+                    console.log(err);
+                });
+            });
+        </script>
+    }
+
+    <style>
+        .css-serial {
+            counter-reset: serial-number; /* Set the serial number counter to 0 */
+        }
+
+            .css-serial td:first-child:before {
+                counter-increment: serial-number; /* Increment the serial number counter */
+                content: counter(serial-number); /* Display the counter */
+            }
+
+        .card {
+            position: relative;
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: flex;
+            -webkit-box-orient: vertical;
+            -webkit-box-direction: normal;
+            -ms-flex-direction: column;
+            flex-direction: column;
+            min-width: 0;
+            word-wrap: break-word;
+            background-color: #fff;
+            background-clip: border-box;
+            border: 1px solid rgba(0, 0, 0, 0.125);
+            border-radius: 0.25rem;
+        }
+
+            .card > hr {
+                margin-right: 0;
+                margin-left: 0;
+            }
+
+            .card > .list-group:first-child .list-group-item:first-child {
+                border-top-left-radius: 0.25rem;
+                border-top-right-radius: 0.25rem;
+            }
+
+            .card > .list-group:last-child .list-group-item:last-child {
+                border-bottom-right-radius: 0.25rem;
+                border-bottom-left-radius: 0.25rem;
+            }
+
+        .card-body {
+            -webkit-box-flex: 1;
+            -ms-flex: 1 1 auto;
+            flex: 1 1 auto;
+            padding: 1.25rem;
+        }
+
+        .card-title {
+            margin-bottom: 0.75rem;
+        }
+
+        .card-subtitle {
+            margin-top: -0.375rem;
+            margin-bottom: 0;
+        }
+
+        .card-text:last-child {
+            margin-bottom: 0;
+        }
+
+        .card-link:hover {
+            text-decoration: none;
+        }
+
+        .card-link + .card-link {
+            margin-left: 1.25rem;
+        }
+
+        .card-header {
+            padding: 0.75rem 1.25rem;
+            margin-bottom: 0;
+            background-color: rgba(0, 0, 0, 0.03);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+        }
+
+            .card-header:first-child {
+                border-radius: calc(0.25rem - 1px) calc(0.25rem - 1px) 0 0;
+            }
+
+            .card-header + .list-group .list-group-item:first-child {
+                border-top: 0;
+            }
+    </style>

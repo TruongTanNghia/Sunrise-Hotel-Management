@@ -1,0 +1,178 @@
+﻿@model List<DoAnHMS.Models.KhachHang>
+
+@{
+    ViewBag.title = "Khách Hàng - Tìm kiếm";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    var grid = new WebGrid(Model, canPage: true, defaultSort: "maKH", rowsPerPage: 5);
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>TimKiem</title>
+    <style type="text/css">
+        .grid-footer {
+            color: #000;
+            font: 17px Calibri;
+            text-align: center;
+            font-weight: bold;
+        }
+
+            .grid-footer a {
+                background-color: #ffffff;
+                color: blue;
+                box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+                padding: 1px 10px 2px 10px;
+            }
+
+                .grid-footer a:active, a:hover {
+                    background-color: #ffffff;
+                    color: #FFAD33;
+                    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+                }
+
+        .alternatingRowStyle {
+            background-color: aliceblue;
+        }
+    </style>
+</head>
+<body>
+    <h3>TÌM KIẾM THÔNG TIN KHÁCH HÀNG</h3>
+    <hr />
+    <div>
+        @using (Html.BeginForm("Search", "KhachHangs", FormMethod.Get))
+        {
+            @Html.AntiForgeryToken()
+
+
+            <table class="table1" align="center">
+                <tr>
+                    <td>
+                        <div> Mã khách hàng </div>
+                    </td>
+                    <td>
+                        <input type="text" name="MaKH" value="@ViewBag.MaKH" class="form-control" />
+                    </td>
+
+                </tr>
+                <tr>
+                    <td>Tên khách hàng </td>
+                    <td>
+                        <input type="text" name="TenKH" value="@ViewBag.TenKH" class="form-control" />
+                    </td>
+
+                </tr>
+
+                <tr>
+                    <td>Giới tính </td>
+                    <td>
+                        @if (@ViewBag.GioiTinh == null)
+                        {
+                            <input type="radio" name="GioiTinh" value="1" /><text>Nam</text>
+                            <input type="radio" name="GioiTinh" value="0" /><text>Nữ</text>
+                        }
+                        else if (@ViewBag.GioiTinh == "1")
+                        {
+                            <input type="radio" name="GioiTinh" checked value="1" /><text>Nam</text>
+                            <input type="radio" name="GioiTinh" value="0" /><text>Nữ</text>
+                        }
+                        else
+                        {
+                            <input type="radio" name="GioiTinh" value="1" /><text>Nam</text>
+                            <input type="radio" name="GioiTinh" checked value="0" /><text>Nữ</text>
+                        }
+
+
+                    </td>
+
+                </tr>
+                <tr>
+                    <td>CMND/Passport </td>
+                    <td>
+                        <input type="text" name="Cmnd_passport" value="@ViewBag.Cmnd_passport" class="form-control" />
+                    </td>
+
+                </tr>
+
+                <tr>
+                    <td>Địa chỉ </td>
+                    <td>
+                        <input type="text" name="DiaChi" value="@ViewBag.DiaChi" class="form-control" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>Quốc tịch </td>
+                    <td>
+                        <input type="text" name="QuocTich" value="@ViewBag.QuocTich" class="form-control" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>Email </td>
+                    <td>
+                        <input type="text" name="Email" value="@ViewBag.Email" class="form-control" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>Số điện thoại </td>
+                    <td>
+                        <input type="text" name="Sdt" value="@ViewBag.Sdt" class="form-control" />
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>
+                        <input type="submit" name="submit" value="Tìm kiếm" style="margin-left: 5px;width:100px;
+                background-color: blue;color:white" />
+                        <input type="button" name="Nhapmoi" value="Nhập mới" style="margin-left: 5px;width:100px;
+                background-color: blue;color:white" onclick="location.href='@Url.Action("Search", "KhachHangs")'" />
+
+                    </td>
+                </tr>
+                <tr>
+                    <td><br /></td>
+                </tr>
+            </table>
+        }
+    </div>
+    <div id="gridContent">
+        @ViewBag.TB
+        @grid.GetHtml(
+            tableStyle: "table table-bordered table-hover",
+            footerStyle: "grid-footer",
+            fillEmptyRows: true,
+            mode: WebGridPagerModes.Numeric,
+            alternatingRowStyle: "alternatingRowStyle",
+              columns: new[]  // colums in grid
+              {
+                grid.Column("STT",format: item => item.WebGrid.Rows.IndexOf(item) + 1 + Math.Round(Convert.ToDouble(grid.TotalRowCount / grid.PageCount) / grid.RowsPerPage) * grid.RowsPerPage * grid.PageIndex),
+                grid.Column("maKH","Mã khách hàng"), //the model fields to display
+                grid.Column("tenKH","Tên khách hàng"),
+                grid.Column("gioiTinh","Giới tính",format: (@item) => @item.gioiTinh==true?"Nam":"Nữ"),
+                grid.Column("cmnd_passport","CMND/Passport"),
+                grid.Column("diaChi","Địa chỉ"),
+                grid.Column("quocTich","Quốc tịch"),
+                grid.Column("email","Email"),
+                grid.Column("sdt","Số điện thoại"),
+                grid.Column("Chức năng", format: @<text>
+    <a href="@Url.Action("Edit",
+                        new { id = item.maKH})" class="edit-btn"><abbr title="Cập nhật"><img src="/images/edit.png" width="20" height="20" /></abbr></a>
+    <a href="@Url.Action("Details",
+                        new { id = item.maKH})" class="edit-btn"><abbr title="Xem chi tiết"><img src="/images/details.png" width="20" height="20" /></abbr></a>
+    <a href="@Url.Action("Delete",
+                        new { id = item.maKH})" class="edit-btn">
+        <abbr title="Xóa">
+            <img src="/images/delete.png" width="20" height="20" />
+        </abbr>
+    </a>
+                </text>)
+}
+)
+    </div>
+
+    <p style="margin-left:50px;">
+        @Html.ActionLink("Quay lại", "Index")
+    </p>
+</body>
+</html>

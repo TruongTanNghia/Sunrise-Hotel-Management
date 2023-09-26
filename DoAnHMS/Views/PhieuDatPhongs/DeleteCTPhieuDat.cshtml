@@ -1,0 +1,30 @@
+﻿@model DoAnHMS.Models.CTPhieuDatPhong
+@{
+    ViewBag.Title = "Phiếu đặt phòng - Xóa chi tiết";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h3>Bạn có chắc chắn muốn chi tiết phiếu đặt phòng này?</h3>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <b>Mã phiếu đặt phòng:</b> @Html.DisplayFor(model => model.maPDP)
+    </div>
+    <div class="col-md-4">
+        <b>Mã phòng:</b> @Html.DisplayFor(model => model.maP)
+    </div>
+    <div class="col-md-4">
+        <b>Tiền cọc:</b> @Html.DisplayFor(model => model.tienCoc)
+    </div>
+</div>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+<div class="form-actions no-color">
+    <input type="submit" value="Xóa" class="btn btn-primary" /> |
+    @Html.ActionLink("Trở về", "Details", new { id = ViewBag.maPDP })
+</div>
+}
+
